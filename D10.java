@@ -13,12 +13,7 @@ public class D10 {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
-	
-	public static class DieJava {
 		private int sides; // Number of sides
 		private int value; // The die's value
 
@@ -29,7 +24,7 @@ public class D10 {
 		 *            The number of sides for this die
 		 */
 
-		public DieJava(int numSides) {
+		public D10(int numSides) {
 			sides = numSides;
 			roll();
 		}
@@ -67,4 +62,4 @@ public class D10 {
 
 	}
 
-}
+

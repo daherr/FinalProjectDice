@@ -30,21 +30,35 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	private GridBagLayout layout;
 	private JTextField myTextField; // variable for text box
 	private JTextField modTextField; // text box for modifiers
-	public static int buttonSelected = 1;
+	public static int buttonSelected = 1; // variable for the type of die that is selected
+	public int rollValue;
+	D6 d6;
+	D4 d4;
+	D8 d8;
+	D10 d10;
+	D12 d12;
+	D20 d20;
 	
 	public FinalProjectDiceMain(){
 		super();
 		
+		D6 d6 = new D6(6);
+		D4 d4 = new D4(4);
+		D8 d8 = new D8(8); 
+		D10 d10 = new D10(10);
+		D12 d12 = new D12(12);
+		D20 d20 = new D20(20);
+		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
-		 JButton genButton;
+		 JButton genButton; // creates a new button for creating all the other buttons
 		 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 GridBagConstraints c = new GridBagConstraints(); // creates a new GridBagRestraint
 		 c.fill = GridBagConstraints.BOTH; // sets c to resize components BOTH vertically and horizontally
 		 c.gridwidth = GridBagConstraints.RELATIVE;
-		 setLayout(layout);
+		 setLayout(layout); // sets the layout of the screen to a gridbag layout
 		 
-		    genButton = new JButton("Roll Dice");
+		    genButton = new JButton("Roll Dice"); // creates the button to roll the dice
 			genButton.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
 			genButton.setActionCommand("RollDice"); // adds ActionListener to button to roll dice
 			c.gridx = 10;
@@ -160,28 +174,53 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		switch(e.getActionCommand()){
 		
 		case "RollDice":
-			
+			if(buttonSelected == 1){
+				d6.roll();
+				rollValue = d6.getValue();
+				System.out.println(rollValue);
+			}else if(buttonSelected == 2){
+				d4.roll();
+				rollValue = d4.getValue();
+				System.out.println(rollValue);
+			}else if(buttonSelected == 3){
+				d8.roll();
+				rollValue = d8.getValue();
+				System.out.println(rollValue);
+			}else if(buttonSelected == 4){
+				d10.roll();
+				rollValue = d10.getValue();
+				System.out.println(rollValue);
+			}else if(buttonSelected == 5){
+				d12.roll();
+				rollValue = d12.getValue();
+				System.out.println(rollValue);
+			}else if(buttonSelected == 6){
+				d20.roll();
+				rollValue = d20.getValue();
+				System.out.println(rollValue);
+			}
 			break;
 		case "D4":
-			
+			buttonSelected = 2;
 			break;
 		case "D6":
-			
+			buttonSelected = 1;
 			break;
 		case "D8":
-			
+			buttonSelected = 3;
 			break;
 		case "D10":
-			
+			buttonSelected = 4;
 			break;
 		case "D12":
-			
+			buttonSelected = 5;
 			break;	
 		case "D20":
-			
+			buttonSelected = 6;
 			break;
 		case "default":
-			
+			//the default sets the dice back to D6, as the D6 is the most common die
+			buttonSelected = 1;
 			break;
 		
 		
