@@ -32,6 +32,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	private JTextField modTextField; // text box for modifiers
 	public static int buttonSelected = 1; // variable for the type of die that is selected
 	public int rollValue;
+	public int numDie;
 	D6 d6;
 	D4 d4;
 	D8 d8;
@@ -42,12 +43,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public FinalProjectDiceMain(){
 		super();
 		
-		D6 d6 = new D6(6);
-		D4 d4 = new D4(4);
-		D8 d8 = new D8(8); 
-		D10 d10 = new D10(10);
-		D12 d12 = new D12(12);
-		D20 d20 = new D20(20);
+		
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -60,7 +56,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		 
 		    genButton = new JButton("Roll Dice"); // creates the button to roll the dice
 			genButton.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
-			genButton.setActionCommand("RollDice"); // adds ActionListener to button to roll dice
+			genButton.setActionCommand("Roll Dice"); // adds ActionListener to button to roll dice
 			c.gridx = 10;
 			c.gridy = 3;
 			layout.setConstraints(genButton, c); // more button constraints
@@ -142,7 +138,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D10.addActionListener(this);
 	        D12.addActionListener(this);
 	        D20.addActionListener(this);
-	        
+	        genButton.addActionListener(this);
 	        D6.setSelected(true);
 	        this.setResizable(false); // makes the frame resizable 
 			this.setSize(500, 500); // sets the frame to the preferred size 
@@ -171,34 +167,40 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		D6 d6 = new D6(6);
+		D4 d4 = new D4(4);
+		D8 d8 = new D8(8); 
+		D10 d10 = new D10(10);
+		D12 d12 = new D12(12);
+		D20 d20 = new D20(20);
 		switch(e.getActionCommand()){
 		
-		case "RollDice":
+		case "Roll Dice":
+			rollValue = 0;
+			numberDice(numDie);
+			for(int ctr = 0; ctr < numDie; ctr++){
+				System.out.println("This switch got called");
 			if(buttonSelected == 1){
 				d6.roll();
-				rollValue = d6.getValue();
-				System.out.println(rollValue);
+				rollValue += d6.getValue();
 			}else if(buttonSelected == 2){
 				d4.roll();
-				rollValue = d4.getValue();
-				System.out.println(rollValue);
+				rollValue += d4.getValue();
 			}else if(buttonSelected == 3){
 				d8.roll();
-				rollValue = d8.getValue();
-				System.out.println(rollValue);
+				rollValue += d8.getValue();
 			}else if(buttonSelected == 4){
 				d10.roll();
-				rollValue = d10.getValue();
-				System.out.println(rollValue);
+				rollValue += d10.getValue();
 			}else if(buttonSelected == 5){
 				d12.roll();
-				rollValue = d12.getValue();
-				System.out.println(rollValue);
+				rollValue += d12.getValue();
 			}else if(buttonSelected == 6){
 				d20.roll();
-				rollValue = d20.getValue();
-				System.out.println(rollValue);
+				rollValue += d20.getValue();
 			}
+		}
+			System.out.println(rollValue);
 			break;
 		case "D4":
 			buttonSelected = 2;
@@ -222,12 +224,15 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			//the default sets the dice back to D6, as the D6 is the most common die
 			buttonSelected = 1;
 			break;
-		
-		
-		
-		
-		
 		}
+	}
 		
+	public int numberDice( int numDie ){
+		if(myTextField.getText() == "^[0-9]+$"){
+		numDie = Integer.parseInt(myTextField.getText());
+		}else{
+			numDie = 1;
+		}
+		return numDie;
 	}
 }
