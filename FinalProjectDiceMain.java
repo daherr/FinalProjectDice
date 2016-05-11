@@ -30,6 +30,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	private GridBagLayout layout;
 	private JTextField myTextField; // variable for text box
 	private JTextField modTextField; // text box for modifiers
+	private JLabel myLabel;
 	public static int buttonSelected = 1; // variable for the type of die that is selected
 	public int rollValue;
 	public int numDie;
@@ -44,7 +45,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public FinalProjectDiceMain(){
 		super();
 		
-		
+		setTitle("Ye Old Dice Roller");
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -56,27 +57,30 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		 setLayout(layout); // sets the layout of the screen to a gridbag layout
 		 
 		    genButton = new JButton("Roll Dice"); // creates the button to roll the dice
-			genButton.setFont(new Font("TimesRoman", Font.ITALIC, 12)); // sets font, makes font italicized and font size
+			genButton.setFont(new Font("GothicE", Font.BOLD, 48)); // sets font, makes font italicized and font size
 			genButton.setActionCommand("Roll Dice"); // adds ActionListener to button to roll dice
-			c.gridx = 10;
+			c.ipadx = 5;
+			c.gridx = 11;
 			c.gridy = 3;
 			layout.setConstraints(genButton, c); // more button constraints
 			genButton.setVisible(true);
 			add(genButton); // adds button to frame
 			
-			myTextField = new JTextField("Please enter the number of dice you need to roll"); // creates new text field and sets text in text field
+			myTextField = new JTextField("Please enter number of dice you need to roll"); // creates new text field and sets text in text field
+			myTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			myTextField.setEditable(true); // makes the text field not editable 
 			add(myTextField);
 			myTextField.addActionListener(this);
-			c.gridx = 10;
+			c.gridx = 11;
 			c.gridy = 1;
 			layout.setConstraints(myTextField, c); // text field constraints
 			
-			modTextField = new JTextField("Please enter the value of your modifier for this roll");
+			modTextField = new JTextField("Please enter value of your modifier for this roll");
+			modTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			modTextField.setEditable(true);
 			add(modTextField);
 			modTextField.addActionListener(this);
-			c.gridx = 10;
+			c.gridx = 11;
 			c.gridy = 2;
 			layout.setConstraints(modTextField, c); // text field constraints
 			
@@ -84,6 +88,8 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			JRadioButton D20 = new JRadioButton("D20");
 	        D20.setMnemonic(KeyEvent.VK_B);
 	        D20.setActionCommand("D20");
+	        c.ipadx = 0;
+	        c.ipady = 40;
 	        c.gridx = 1;
 	        c.gridy = 6;
 	        layout.setConstraints(D20, c); // more button constraints
@@ -161,6 +167,9 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		 * Store images in array
 		 * store in buffered image
 		 * 
+		 * dice roll sound
+		 * nat 1 sound
+		 * nat 20 sound
 		 */
 		
 		
@@ -178,26 +187,29 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		
 		case "Roll Dice":
 			rollValue = 0;
+			numDie = 0;
+			modDie= 0;
 			numberDice();
+			modifyDice();
 			for(int ctr = 0; ctr < numDie; ctr++){
 			if(buttonSelected == 1){
 				d6.roll();
-				rollValue += d6.getValue();
+				rollValue += d6.getValue() + modDie;
 			}else if(buttonSelected == 2){
 				d4.roll();
-				rollValue += d4.getValue();
+				rollValue += d4.getValue() + modDie;
 			}else if(buttonSelected == 3){
 				d8.roll();
-				rollValue += d8.getValue();
+				rollValue += d8.getValue() + modDie;
 			}else if(buttonSelected == 4){
 				d10.roll();
-				rollValue += d10.getValue();
+				rollValue += d10.getValue() + modDie;
 			}else if(buttonSelected == 5){
 				d12.roll();
-				rollValue += d12.getValue();
+				rollValue += d12.getValue() + modDie;
 			}else if(buttonSelected == 6){
 				d20.roll();
-				rollValue += d20.getValue();
+				rollValue += d20.getValue() + modDie;
 			}
 		}
 			System.out.println(rollValue);
@@ -238,8 +250,14 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	}
 	
 	public int modifyDice(){
-		if(myTextField.getText().matches("^[+|-][0-9]+$")){
-			
+		if(modTextField.getText().matches("^[+|-][0-9]+$")){
+			modDie = Integer.parseInt(modTextField.getText());
+		//}else if(modTextField.getText().matches("^[-][0-9]+$")){
+	    //modDie = Integer.parseInt(modTextField.getText());
+		}else{
+			modDie = 0;
 		}
+		System.out.println(modDie);
+		return modDie;
 	}
 }
