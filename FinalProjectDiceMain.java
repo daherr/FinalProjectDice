@@ -177,7 +177,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		
 		case "Roll Dice":
 			rollValue = 0;
-			numberDice(numDie);
+			numberDice();
 			for(int ctr = 0; ctr < numDie; ctr++){
 				System.out.println("This switch got called");
 			if(buttonSelected == 1){
@@ -227,8 +227,8 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		}
 	}
 		
-	public int numberDice( int numDie ){
-		if(myTextField.getText() == "^[0-9]+$"){
+	public int numberDice(){
+		if(myTextField.getText().matches("/^[0-9]+$/")){
 		numDie = Integer.parseInt(myTextField.getText());
 		}else{
 			numDie = 1;
