@@ -33,6 +33,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public static int buttonSelected = 1; // variable for the type of die that is selected
 	public int rollValue;
 	public int numDie;
+	public int modDie;
 	D6 d6;
 	D4 d4;
 	D8 d8;
@@ -179,7 +180,6 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			rollValue = 0;
 			numberDice();
 			for(int ctr = 0; ctr < numDie; ctr++){
-				System.out.println("This switch got called");
 			if(buttonSelected == 1){
 				d6.roll();
 				rollValue += d6.getValue();
@@ -228,11 +228,18 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	}
 		
 	public int numberDice(){
-		if(myTextField.getText().matches("/^[0-9]+$/")){
+		if(myTextField.getText().matches("^[0-9]+$")){
 		numDie = Integer.parseInt(myTextField.getText());
 		}else{
+			myTextField.setText("Invalid number entered, value set to one");
 			numDie = 1;
 		}
 		return numDie;
+	}
+	
+	public int modifyDice(){
+		if(myTextField.getText().matches("^[+|-][0-9]+$")){
+			
+		}
 	}
 }
