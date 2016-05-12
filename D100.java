@@ -4,12 +4,13 @@ import java.util.Random;
  * @author SJHSStudent
  *
  */
-public class D10 {
 
+public class D100 {
+	
 	/**
 	 * @param args
 	 */
-
+	
 		private int sides; // Number of sides
 		private int value; // The die's value
 
@@ -20,7 +21,7 @@ public class D10 {
 		 *            The number of sides for this die
 		 */
 
-		public D10(int numSides) {
+		public D100(int numSides) {
 			sides = numSides;
 			roll();
 		}
@@ -57,5 +58,4 @@ public class D10 {
 		}
 
 	}
-
 

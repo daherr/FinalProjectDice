@@ -1,10 +1,6 @@
 import java.util.Random;
 
 /**
- * 
- */
-
-/**
  * @author SJHSStudent
  *
  */

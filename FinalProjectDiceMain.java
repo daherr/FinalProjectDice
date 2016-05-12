@@ -1,10 +1,20 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 /**
@@ -35,17 +45,21 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public int rollValue;
 	public int numDie;
 	public int modDie;
+	JLabel background;
 	D6 d6;
 	D4 d4;
 	D8 d8;
 	D10 d10;
 	D12 d12;
 	D20 d20;
+	D100 d100;
 	
 	public FinalProjectDiceMain(){
 		super();
 		
-		setTitle("Ye Old Dice Roller");
+		setTitle("Ye Olde Dice Roller");
+		background = new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg"));
+		//setComponentZOrder(background, 1);
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -124,6 +138,12 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        c.gridy = 5;
 	        layout.setConstraints(D12, c); // more button constraints
 	        
+	        JRadioButton D100 = new JRadioButton("Percentage");
+	        D100.setMnemonic(KeyEvent.VK_B);
+	        D100.setActionCommand("D100");
+	        c.gridy = 7;
+	        layout.setConstraints(D100, c); // more button constraints
+	        
 	        ButtonGroup dice = new ButtonGroup();
 	        dice.add(D20);
 	        dice.add(D4);
@@ -131,13 +151,17 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        dice.add(D8);
 	        dice.add(D10);
 	        dice.add(D12);
+	        dice.add(D100);
 	        
+	        add(background);
 	        add(D20);
 	        add(D4);
 	        add(D6);
 	        add(D8);
 	        add(D10);
 	        add(D12);
+	        add(D100);
+	       
 	        
 	        D4.addActionListener(this);
 	        D6.addActionListener(this);
@@ -145,10 +169,12 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D10.addActionListener(this);
 	        D12.addActionListener(this);
 	        D20.addActionListener(this);
+	        D100.addActionListener(this);
 	        genButton.addActionListener(this);
 	        D6.setSelected(true);
+	        background.setVisible(true);
 	        this.setResizable(false); // makes the frame resizable 
-			this.setSize(500, 500); // sets the frame to the preferred size 
+			this.setSize(500, 550); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
 			
 	}
@@ -183,6 +209,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		D10 d10 = new D10(10);
 		D12 d12 = new D12(12);
 		D20 d20 = new D20(20);
+		D100 d100 = new D100(100);
 		switch(e.getActionCommand()){
 		
 		case "Roll Dice":
@@ -193,25 +220,65 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			modifyDice();
 			for(int ctr = 0; ctr < numDie; ctr++){
 			if(buttonSelected == 1){
+				playDiceSound();
 				d6.roll();
 				rollValue += d6.getValue() + modDie;
 			}else if(buttonSelected == 2){
+				playDiceSound();
 				d4.roll();
 				rollValue += d4.getValue() + modDie;
 			}else if(buttonSelected == 3){
+				playDiceSound();
 				d8.roll();
 				rollValue += d8.getValue() + modDie;
 			}else if(buttonSelected == 4){
+				playDiceSound();
 				d10.roll();
 				rollValue += d10.getValue() + modDie;
 			}else if(buttonSelected == 5){
+				playDiceSound();
 				d12.roll();
 				rollValue += d12.getValue() + modDie;
 			}else if(buttonSelected == 6){
 				d20.roll();
-				rollValue += d20.getValue() + modDie;
+				rollValue += d20.getValue();
+				if(d20.getValue() == 20){
+					try{
+					File clap = new File("Applause Light 2-SoundBible.com-356111200.wav"); // creates the file to reference for sound one
+					AudioInputStream clapStream = AudioSystem.getAudioInputStream(clap);
+					AudioFormat clapFormat = clapStream.getFormat(); // creates a new audio format
+					DataLine.Info clapInfo = new DataLine.Info( Clip.class, clapFormat); // creates a variable for additional information about the file
+					Clip clapClip = (Clip) AudioSystem.getLine(clapInfo);
+					clapClip.open(clapStream);
+					clapClip.start(); // starts to play the clip
+					} catch(Exception e1){
+						e1.printStackTrace();
+					}
+				}else if(d20.getValue() == 1){
+					try{
+					File sad = new File("Sad_Trombone-Joe_Lamb-665429450.wav"); // creates the file to reference for sound one
+					AudioInputStream sadStream = AudioSystem.getAudioInputStream(sad); // creates a new audio input stream
+					AudioFormat sadFormat = sadStream.getFormat(); // creates a new audio format
+					DataLine.Info sadInfo = new DataLine.Info( Clip.class, sadFormat); // creates a variable for additional information about the file
+					Clip sadClip = (Clip) AudioSystem.getLine(sadInfo); // creates the clip that will be played 
+					sadClip.open(sadStream); // opens the clip so that it can be played
+					sadClip.start(); // starts to play the clip
+					} catch(Exception e1){
+						e1.printStackTrace();
+					}
+					}else if( d20.getValue() != 20 || d20.getValue() != 1){
+						
+						playDiceSound();
+					}
+				
+				rollValue += modDie;
+			}else if(buttonSelected == 7){
+					d100.roll();
+					playDiceSound();
+					rollValue += d100.getValue() + modDie;
+				}
 			}
-		}
+		
 			System.out.println(rollValue);
 			break;
 		case "D4":
@@ -231,6 +298,9 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			break;	
 		case "D20":
 			buttonSelected = 6;
+			break;
+		case "D100":
+			buttonSelected = 7;
 			break;
 		case "default":
 			//the default sets the dice back to D6, as the D6 is the most common die
@@ -259,5 +329,18 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		}
 		System.out.println(modDie);
 		return modDie;
+	}
+	public void playDiceSound(){
+		try{
+		File dice = new File("Shake And Roll Dice-SoundBible.com-591494296.wav"); // creates the file to reference for sound one
+		AudioInputStream diceStream = AudioSystem.getAudioInputStream(dice); // creates a new audio input stream
+		AudioFormat diceFormat = diceStream.getFormat(); // creates a new audio format
+		DataLine.Info diceInfo = new DataLine.Info( Clip.class, diceFormat); // creates a variable for additional information about the file
+		Clip diceClip = (Clip) AudioSystem.getLine(diceInfo); // creates the clip that will be played 
+		diceClip.open(diceStream); // opens the clip so that it can be played
+		diceClip.start(); // starts to play the clip
+		}catch( Exception e1){
+			e1.printStackTrace();
+		}
 	}
 }
