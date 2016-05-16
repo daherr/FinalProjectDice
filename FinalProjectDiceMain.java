@@ -40,12 +40,12 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	private GridBagLayout layout;
 	private JTextField myTextField; // variable for text box
 	private JTextField modTextField; // text box for modifiers
-	private JLabel myLabel;
 	public static int buttonSelected = 1; // variable for the type of die that is selected
+	private JTextArea dieValue;
 	public int rollValue;
 	public int numDie;
 	public int modDie;
-	JLabel background;
+	private JLabel background;
 	D6 d6;
 	D4 d4;
 	D8 d8;
@@ -58,8 +58,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		super();
 		
 		setTitle("Ye Olde Dice Roller");
-		background = new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg"));
-		//setComponentZOrder(background, 1);
+		//background = new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg"));
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -97,6 +96,16 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			c.gridx = 11;
 			c.gridy = 2;
 			layout.setConstraints(modTextField, c); // text field constraints
+			
+			dieValue = new JTextArea("0");
+			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100));
+			dieValue.setEditable(false);
+			add(dieValue);
+			c.ipady = 100;
+			c.weighty = 100;
+			c.gridx = 11;
+			c.gridy = 4;
+			layout.setConstraints(dieValue, c);
 			
 			//c.anchor = GridBagConstraints.FIRST_LINE_START;
 			JRadioButton D20 = new JRadioButton("D20");
@@ -153,7 +162,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        dice.add(D12);
 	        dice.add(D100);
 	        
-	        add(background);
+	        //add(background);
 	        add(D20);
 	        add(D4);
 	        add(D6);
@@ -172,7 +181,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D100.addActionListener(this);
 	        genButton.addActionListener(this);
 	        D6.setSelected(true);
-	        background.setVisible(true);
+	        //background.setVisible(true);
 	        this.setResizable(false); // makes the frame resizable 
 			this.setSize(500, 550); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
@@ -277,6 +286,9 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 					playDiceSound();
 					rollValue += d100.getValue() + modDie;
 				}
+			
+			String valueString = Integer.toString(rollValue);
+			dieValue.setText(valueString);
 			}
 		
 			System.out.println(rollValue);
@@ -327,7 +339,6 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		}else{
 			modDie = 0;
 		}
-		System.out.println(modDie);
 		return modDie;
 	}
 	public void playDiceSound(){
