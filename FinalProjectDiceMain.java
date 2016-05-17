@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -97,16 +98,6 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			c.gridy = 2;
 			layout.setConstraints(modTextField, c); // text field constraints
 			
-			dieValue = new JTextArea("0");
-			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100));
-			dieValue.setEditable(false);
-			add(dieValue);
-			c.ipady = 100;
-			c.weighty = 100;
-			c.gridx = 11;
-			c.gridy = 4;
-			layout.setConstraints(dieValue, c);
-			
 			//c.anchor = GridBagConstraints.FIRST_LINE_START;
 			JRadioButton D20 = new JRadioButton("D20");
 	        D20.setMnemonic(KeyEvent.VK_B);
@@ -152,6 +143,20 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D100.setActionCommand("D100");
 	        c.gridy = 7;
 	        layout.setConstraints(D100, c); // more button constraints
+	        
+	        dieValue = new JTextArea("0");
+			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100));
+			dieValue.setEditable(false);
+			add(dieValue);
+			dieValue.setSize(100, 50);
+			//dieValue.setAlignmentY(1);
+			//dieValue.setAlignmentX(1);
+			c.ipady = 75;
+			c.weighty = 0;
+			c.gridx = 11;
+			c.gridy = 4;
+			c.anchor = GridBagConstraints.LAST_LINE_END;
+			layout.setConstraints(dieValue, c);
 	        
 	        ButtonGroup dice = new ButtonGroup();
 	        dice.add(D20);
@@ -354,4 +359,6 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			e1.printStackTrace();
 		}
 	}
+	
+	//public void 
 }
