@@ -17,6 +17,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
+import java.util.Random;
 
 /**
  * 
@@ -59,7 +60,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		super();
 		
 		setTitle("Ye Olde Dice Roller");
-		//background = new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg"));
+		background = new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg"));
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -80,7 +81,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			genButton.setVisible(true);
 			add(genButton); // adds button to frame
 			
-			myTextField = new JTextField("Please enter number of dice you need to roll"); // creates new text field and sets text in text field
+			myTextField = new JTextField("Please enter number of dice to roll"); // creates new text field and sets text in text field
 			myTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			myTextField.setEditable(true); // makes the text field not editable 
 			add(myTextField);
@@ -89,7 +90,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			c.gridy = 1;
 			layout.setConstraints(myTextField, c); // text field constraints
 			
-			modTextField = new JTextField("Please enter value of your modifier for this roll");
+			modTextField = new JTextField("Please enter modifier for this roll");
 			modTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			modTextField.setEditable(true);
 			add(modTextField);
@@ -167,7 +168,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        dice.add(D12);
 	        dice.add(D100);
 	        
-	        //add(background);
+	       // add(background);
 	        add(D20);
 	        add(D4);
 	        add(D6);
@@ -175,8 +176,9 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        add(D10);
 	        add(D12);
 	        add(D100);
-	       
 	        
+	        //setComponentZOrder(background, 1);
+	        //setContentPane(new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg")));
 	        D4.addActionListener(this);
 	        D6.addActionListener(this);
 	        D8.addActionListener(this);
@@ -186,8 +188,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D100.addActionListener(this);
 	        genButton.addActionListener(this);
 	        D6.setSelected(true);
-	        //background.setVisible(true);
-	        this.setResizable(false); // makes the frame resizable 
+	        this.setResizable(false); // makes the frame not resizable 
 			this.setSize(500, 550); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
 			
@@ -198,18 +199,14 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		
 		/*
 		 * *GOALS*
-		 * To be able to roll all of the different kinds of dice (D20, D4, D6, D8, D10, D12) 
-		 * Have an animation for each of the different kinds of dice
-		 * Have a text area for modifiers
-		 * Have a text area for the number of dice rolled
+		 * To be able to roll all of the different kinds of dice (D20, D4, D6, D8, D10, D12)- check
+		 * Have a text area for modifiers- check
+		 * Have a text area for the number of dice rolled- check
 		 * Selection for common dice rolls??? (Initiative, attack, saving throws) 
 		 * 
-		 * Store images in array
-		 * store in buffered image
-		 * 
-		 * dice roll sound
-		 * nat 1 sound
-		 * nat 20 sound
+		 * dice roll sound - check
+		 * nat 1 sound - check
+		 * nat 20 sound - check
 		 */
 		
 		
@@ -291,7 +288,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 					playDiceSound();
 					rollValue += d100.getValue() + modDie;
 				}
-			
+			displayRandom();
 			String valueString = Integer.toString(rollValue);
 			dieValue.setText(valueString);
 			}
@@ -360,5 +357,44 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		}
 	}
 	
-	//public void 
+	public void displayRandom(){
+		Random rnd = new Random(); // creates random object
+		int ranNum = 0;
+		
+		int ctr = 7;
+		for( int i = 0; i < ctr; i++){
+			switch(buttonSelected){
+			
+			case 1:
+				ranNum = rnd.nextInt(6);
+				break;
+			case 2:
+				 ranNum = rnd.nextInt(4);
+				 break;
+			case 3:
+				 ranNum = rnd.nextInt(8);
+				 break;
+			case 4:
+				ranNum = rnd.nextInt(10);
+				break;
+			case 5:
+				ranNum = rnd.nextInt(12);
+				break;
+			case 6:
+				ranNum = rnd.nextInt(20);
+				break;
+			case 7:
+				ranNum = rnd.nextInt(100);
+				break;
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			String numString = Integer.toString(ranNum);
+			dieValue.setText(numString);
+			System.out.println(numString);
+		}
+	}
 }

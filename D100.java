@@ -32,7 +32,7 @@ public class D100 {
 
 		public void roll() {
 			Random rnd = new Random(); // creates random object
-
+			
 			// Get a random value for the die
 			value = rnd.nextInt(sides) + 1;
 		}
