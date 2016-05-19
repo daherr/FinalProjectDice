@@ -1,14 +1,18 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -47,7 +51,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public int rollValue;
 	public int numDie;
 	public int modDie;
-	private JLabel background;
+	//private Color background;
 	D6 d6;
 	D4 d4;
 	D8 d8;
@@ -60,7 +64,8 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		super();
 		
 		setTitle("Ye Olde Dice Roller");
-		background = new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg"));
+		//background = Color.BLACK;
+		getContentPane().
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -79,6 +84,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			c.gridy = 3;
 			layout.setConstraints(genButton, c); // more button constraints
 			genButton.setVisible(true);
+		
 			add(genButton); // adds button to frame
 			
 			myTextField = new JTextField("Please enter number of dice to roll"); // creates new text field and sets text in text field
@@ -88,6 +94,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			myTextField.addActionListener(this);
 			c.gridx = 11;
 			c.gridy = 1;
+			
 			layout.setConstraints(myTextField, c); // text field constraints
 			
 			modTextField = new JTextField("Please enter modifier for this roll");
@@ -97,6 +104,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			modTextField.addActionListener(this);
 			c.gridx = 11;
 			c.gridy = 2;
+			
 			layout.setConstraints(modTextField, c); // text field constraints
 			
 			//c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -107,6 +115,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        c.ipady = 40;
 	        c.gridx = 1;
 	        c.gridy = 6;
+	       
 	        layout.setConstraints(D20, c); // more button constraints
 			
 	         JRadioButton D10  = new JRadioButton("D10");
@@ -119,6 +128,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D6.setMnemonic(KeyEvent.VK_B);
 	        D6.setActionCommand("D6");
 	        c.gridy = 2;
+	        
 	        layout.setConstraints(D6, c); // more button constraints
 	        
 	        JRadioButton D4 = new JRadioButton("D4");
@@ -137,12 +147,14 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D12.setMnemonic(KeyEvent.VK_B);
 	        D12.setActionCommand("D12");
 	        c.gridy = 5;
+	        
 	        layout.setConstraints(D12, c); // more button constraints
 	        
 	        JRadioButton D100 = new JRadioButton("Percentage");
 	        D100.setMnemonic(KeyEvent.VK_B);
 	        D100.setActionCommand("D100");
 	        c.gridy = 7;
+	        
 	        layout.setConstraints(D100, c); // more button constraints
 	        
 	        dieValue = new JTextArea("0");
@@ -157,6 +169,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			c.gridx = 11;
 			c.gridy = 4;
 			c.anchor = GridBagConstraints.LAST_LINE_END;
+			
 			layout.setConstraints(dieValue, c);
 	        
 	        ButtonGroup dice = new ButtonGroup();
@@ -168,7 +181,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        dice.add(D12);
 	        dice.add(D100);
 	        
-	       // add(background);
+	        //add(background);
 	        add(D20);
 	        add(D4);
 	        add(D6);
@@ -191,6 +204,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        this.setResizable(false); // makes the frame not resizable 
 			this.setSize(500, 550); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
+			
 			
 	}
 	public static void main(String[] args) {
@@ -360,9 +374,9 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public void displayRandom(){
 		Random rnd = new Random(); // creates random object
 		int ranNum = 0;
-		
 		int ctr = 7;
 		for( int i = 0; i < ctr; i++){
+			String numString = Integer.toString(ranNum);
 			switch(buttonSelected){
 			
 			case 1:
@@ -389,12 +403,12 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			}
 			try {
 				Thread.sleep(100);
+				dieValue.setText(numString);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			String numString = Integer.toString(ranNum);
-			dieValue.setText(numString);
 			System.out.println(numString);
 		}
 	}
+
 }
