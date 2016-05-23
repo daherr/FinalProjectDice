@@ -65,7 +65,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		
 		setTitle("Ye Olde Dice Roller");
 		//background = Color.BLACK;
-		getContentPane().
+		//getContentPane().
 		rollValue = 0;
 		layout = new GridBagLayout();
 		 // variable for the gridbag layout
@@ -73,37 +73,37 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		 GridBagConstraints c = new GridBagConstraints(); // creates a new GridBagRestraint
 		 c.fill = GridBagConstraints.BOTH; // sets c to resize components BOTH vertically and horizontally
-		 c.gridwidth = GridBagConstraints.RELATIVE;
+		 //c.gridwidth = GridBagConstraints.RELATIVE;
 		 setLayout(layout); // sets the layout of the screen to a gridbag layout
 		 
 		    genButton = new JButton("Roll Dice"); // creates the button to roll the dice
 			genButton.setFont(new Font("GothicE", Font.BOLD, 48)); // sets font, makes font italicized and font size
 			genButton.setActionCommand("Roll Dice"); // adds ActionListener to button to roll dice
 			c.ipadx = 5;
-			c.gridx = 11;
-			c.gridy = 3;
+			c.gridx = 3;
+			c.gridy = 1;
 			layout.setConstraints(genButton, c); // more button constraints
 			genButton.setVisible(true);
 		
 			add(genButton); // adds button to frame
 			
-			myTextField = new JTextField("Please enter number of dice to roll"); // creates new text field and sets text in text field
+			myTextField = new JTextField("Please enter number of dice"); // creates new text field and sets text in text field
 			myTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			myTextField.setEditable(true); // makes the text field not editable 
 			add(myTextField);
 			myTextField.addActionListener(this);
-			c.gridx = 11;
+			c.gridx = 1;
 			c.gridy = 1;
 			
 			layout.setConstraints(myTextField, c); // text field constraints
 			
-			modTextField = new JTextField("Please enter modifier for this roll");
+			modTextField = new JTextField("Please enter the value of modifier");
 			modTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			modTextField.setEditable(true);
 			add(modTextField);
 			modTextField.addActionListener(this);
-			c.gridx = 11;
-			c.gridy = 2;
+			c.gridx = 2;
+			c.gridy = 1;
 			
 			layout.setConstraints(modTextField, c); // text field constraints
 			
@@ -113,48 +113,51 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        D20.setActionCommand("D20");
 	        c.ipadx = 0;
 	        c.ipady = 40;
-	        c.gridx = 1;
-	        c.gridy = 6;
+	        c.gridx = 2;
+	        c.gridy = 3;
 	       
 	        layout.setConstraints(D20, c); // more button constraints
 			
 	         JRadioButton D10  = new JRadioButton("D10");
 	        D10.setMnemonic(KeyEvent.VK_B);
 	        D10.setActionCommand("D10");
-	        c.gridy = 4;
+	        c.gridy = 2;
+	        c.gridx = 4;
 	        layout.setConstraints(D10, c); // more button constraints
 	        
 	        JRadioButton D6 = new JRadioButton("D6");
 	        D6.setMnemonic(KeyEvent.VK_B);
 	        D6.setActionCommand("D6");
 	        c.gridy = 2;
-	        
+	        c.gridx = 2;
 	        layout.setConstraints(D6, c); // more button constraints
 	        
 	        JRadioButton D4 = new JRadioButton("D4");
 	        D4.setMnemonic(KeyEvent.VK_B);
 	        D4.setActionCommand("D4");
-	        c.gridy = 1;
+	        c.gridy = 2;
+	        c.gridx = 1;
 	        layout.setConstraints(D4, c); // more button constraints
 	        
 	        JRadioButton D8 = new JRadioButton("D8");
 	        D8.setMnemonic(KeyEvent.VK_B);
 	        D8.setActionCommand("D8");
-	        c.gridy = 3;
+	        c.gridy = 2;
+	        c.gridx = 3;
 	        layout.setConstraints(D8, c); // more button constraints
 	        
 	        JRadioButton D12 = new JRadioButton("D12");
 	        D12.setMnemonic(KeyEvent.VK_B);
 	        D12.setActionCommand("D12");
-	        c.gridy = 5;
-	        
+	        c.gridy = 3;
+	        c.gridx = 1;
 	        layout.setConstraints(D12, c); // more button constraints
 	        
 	        JRadioButton D100 = new JRadioButton("Percentage");
 	        D100.setMnemonic(KeyEvent.VK_B);
 	        D100.setActionCommand("D100");
-	        c.gridy = 7;
-	        
+	        c.gridy = 3;
+	        c.gridx = 3;
 	        layout.setConstraints(D100, c); // more button constraints
 	        
 	        dieValue = new JTextArea("0");
@@ -164,10 +167,10 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			dieValue.setSize(100, 50);
 			//dieValue.setAlignmentY(1);
 			//dieValue.setAlignmentX(1);
-			c.ipady = 75;
-			c.weighty = 0;
-			c.gridx = 11;
-			c.gridy = 4;
+			c.ipady = 0;
+			c.ipadx = 75;
+			c.gridx = 4;
+			c.gridy = 1;
 			c.anchor = GridBagConstraints.LAST_LINE_END;
 			
 			layout.setConstraints(dieValue, c);
@@ -202,7 +205,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        genButton.addActionListener(this);
 	        D6.setSelected(true);
 	        this.setResizable(false); // makes the frame not resizable 
-			this.setSize(500, 550); // sets the frame to the preferred size 
+			this.setSize(2000, 2000); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
 			
 			
@@ -341,7 +344,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		if(myTextField.getText().matches("^[0-9]+$")){
 		numDie = Integer.parseInt(myTextField.getText());
 		}else{
-			myTextField.setText("Invalid number entered, value set to one");
+			myTextField.setText("Invalid number, value set to one");
 			numDie = 1;
 		}
 		return numDie;
