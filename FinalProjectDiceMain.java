@@ -51,6 +51,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public int rollValue;
 	public int numDie;
 	public int modDie;
+	public Dimension d;
 	//private Color background;
 	D6 d6;
 	D4 d4;
@@ -90,21 +91,23 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			myTextField = new JTextField("Please enter number of dice"); // creates new text field and sets text in text field
 			myTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			myTextField.setEditable(true); // makes the text field not editable 
+			d = myTextField.getMaximumSize();
+			myTextField.setMinimumSize(d);
 			add(myTextField);
 			myTextField.addActionListener(this);
 			c.gridx = 1;
 			c.gridy = 1;
-			
+			//myTextField.
 			layout.setConstraints(myTextField, c); // text field constraints
 			
 			modTextField = new JTextField("Please enter the value of modifier");
 			modTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
 			modTextField.setEditable(true);
+			modTextField.setMinimumSize(d);
 			add(modTextField);
 			modTextField.addActionListener(this);
 			c.gridx = 2;
 			c.gridy = 1;
-			
 			layout.setConstraints(modTextField, c); // text field constraints
 			
 			//c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -205,9 +208,10 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        genButton.addActionListener(this);
 	        D6.setSelected(true);
 	        this.setResizable(false); // makes the frame not resizable 
-			this.setSize(2000, 2000); // sets the frame to the preferred size 
+			this.setSize(1000, 300); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
-			
+			System.out.println(myTextField.getMinimumSize());
+			System.out.println(modTextField.getMinimumSize());
 			
 	}
 	public static void main(String[] args) {
