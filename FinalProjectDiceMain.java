@@ -38,20 +38,22 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	 */
 	private static final long serialVersionUID = 2212909403301242061L;
 	/**
-	 * This program is a Dungeons and Dragons Dice Roll Helper (name is in the works) 
-	 * The goal is to help Dungeon masters ( or players? Not sure yet) with their dice rolls
+	 * This program is a Dungeons and Dragons Dice Roll Helper otherwise known as the Ye Old Dice Roller! (Copyright pending)
+	 * The goal is to help Dungeon masters and players with their dice rolls, however, it can be used in all sorts of board games to replace dice
+	 * if they are ever lost, etc..
 	 * @param args
 	 * @return 
 	 */
-	private GridBagLayout layout;
+	private GridBagLayout layout; // variable for the GridBagLayout.
 	private JTextField myTextField; // variable for text box
 	private JTextField modTextField; // text box for modifiers
 	public static int buttonSelected = 1; // variable for the type of die that is selected
-	private JTextArea dieValue;
-	public int rollValue;
-	public int numDie;
+	private JTextArea dieValue; // variable for the value of the dice rolls
+	public int rollValue; // int for the value of the dice rolls
+	public int numDie; //
 	public int modDie;
 	public Dimension d;
+	private JOptionPane justInCase;
 	//private Color background;
 	D6 d6;
 	D4 d4;
@@ -76,6 +78,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		 c.fill = GridBagConstraints.BOTH; // sets c to resize components BOTH vertically and horizontally
 		 //c.gridwidth = GridBagConstraints.RELATIVE;
 		 setLayout(layout); // sets the layout of the screen to a gridbag layout
+		 justInCase = new JOptionPane();
 		 
 		    genButton = new JButton("Roll Dice"); // creates the button to roll the dice
 			genButton.setFont(new Font("GothicE", Font.BOLD, 48)); // sets font, makes font italicized and font size
@@ -88,11 +91,11 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		
 			add(genButton); // adds button to frame
 			
-			myTextField = new JTextField("Please enter number of dice"); // creates new text field and sets text in text field
-			myTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
+			myTextField = new JTextField("Please enter the number of dice"); // creates new text field and sets text in text field
+			myTextField.setFont(new Font("GothicE", Font.PLAIN, 16));
 			myTextField.setEditable(true); // makes the text field not editable 
-			d = myTextField.getMaximumSize();
-			myTextField.setMinimumSize(d);
+			d = myTextField.getPreferredSize();
+			myTextField.setPreferredSize(d);
 			add(myTextField);
 			myTextField.addActionListener(this);
 			c.gridx = 1;
@@ -101,9 +104,10 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			layout.setConstraints(myTextField, c); // text field constraints
 			
 			modTextField = new JTextField("Please enter the value of modifier");
-			modTextField.setFont(new Font("GothicE", Font.PLAIN, 14));
+			modTextField.setFont(new Font("GothicE", Font.PLAIN, 16));
 			modTextField.setEditable(true);
-			modTextField.setMinimumSize(d);
+			d = modTextField.getPreferredSize();
+			modTextField.setPreferredSize(d);
 			add(modTextField);
 			modTextField.addActionListener(this);
 			c.gridx = 2;
@@ -166,12 +170,14 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        dieValue = new JTextArea("0");
 			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100));
 			dieValue.setEditable(false);
+			d = dieValue.getPreferredSize();
+			dieValue.setPreferredSize(new Dimension((d.width * 3), d.height));
 			add(dieValue);
-			dieValue.setSize(100, 50);
+			//dieValue.setSize( 300, 50);
 			//dieValue.setAlignmentY(1);
 			//dieValue.setAlignmentX(1);
 			c.ipady = 0;
-			c.ipadx = 75;
+			c.ipadx = 0;
 			c.gridx = 4;
 			c.gridy = 1;
 			c.anchor = GridBagConstraints.LAST_LINE_END;
@@ -208,7 +214,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        genButton.addActionListener(this);
 	        D6.setSelected(true);
 	        this.setResizable(false); // makes the frame not resizable 
-			this.setSize(1000, 300); // sets the frame to the preferred size 
+			this.setSize(1250, 300); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
 			System.out.println(myTextField.getMinimumSize());
 			System.out.println(modTextField.getMinimumSize());
@@ -223,8 +229,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 		 * To be able to roll all of the different kinds of dice (D20, D4, D6, D8, D10, D12)- check
 		 * Have a text area for modifiers- check
 		 * Have a text area for the number of dice rolled- check
-		 * Selection for common dice rolls??? (Initiative, attack, saving throws) 
-		 * 
+		 * Selection for common dice rolls??? (Initiative, attack, saving throws)- prob not gonna happen, the number of dice works just the same honestly
 		 * dice roll sound - check
 		 * nat 1 sound - check
 		 * nat 20 sound - check
@@ -313,7 +318,9 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			String valueString = Integer.toString(rollValue);
 			dieValue.setText(valueString);
 			}
-		
+			if(rollValue > 1000){
+				JOptionPane.showMessageDialog(justInCase, "Number larger than 1000: " + rollValue);
+			}
 			System.out.println(rollValue);
 			break;
 		case "D4":
@@ -357,8 +364,6 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public int modifyDice(){
 		if(modTextField.getText().matches("^[+|-][0-9]+$")){
 			modDie = Integer.parseInt(modTextField.getText());
-		//}else if(modTextField.getText().matches("^[-][0-9]+$")){
-	    //modDie = Integer.parseInt(modTextField.getText());
 		}else{
 			modDie = 0;
 		}
@@ -414,6 +419,7 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			repaint();
 			System.out.println(numString);
 		}
 	}
