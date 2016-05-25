@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -55,6 +56,8 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	public Dimension d;
 	private JOptionPane justInCase;
 	//private Color background;
+	private Image image;
+	
 	D6 d6;
 	D4 d4;
 	D8 d8;
@@ -216,8 +219,6 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 	        this.setResizable(false); // makes the frame not resizable 
 			this.setSize(1250, 300); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
-			System.out.println(myTextField.getMinimumSize());
-			System.out.println(modTextField.getMinimumSize());
 			
 	}
 	public static void main(String[] args) {
@@ -423,5 +424,11 @@ public class FinalProjectDiceMain extends JFrame implements ActionListener {
 			System.out.println(numString);
 		}
 	}
+	
+	 protected void paintComponent(Graphics g) {
+	      super.paintComponent(g);
+	      if (image != null) {
+	         g.drawImage(image, 0, 0, null);
+	      }
 
 }
