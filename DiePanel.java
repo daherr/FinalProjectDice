@@ -1,10 +1,8 @@
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,8 +15,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import java.util.Random;
 
@@ -49,69 +45,54 @@ public class DiePanel extends JPanel implements ActionListener {
 	public static int buttonSelected = 1; // variable for the type of die that is selected
 	private JTextArea dieValue; // variable for the value of the dice rolls
 	public int rollValue; // int for the value of the dice rolls
-	public int numDie; //
-	public int modDie;
-	public Dimension d;
-	private JOptionPane justInCase;
-	//private Color background;
-	private BufferedImage image;
-	
-	D6 d6;
-	D4 d4;
-	D8 d8;
-	D10 d10;
-	D12 d12;
-	D20 d20;
-	D100 d100;
+	public int numDie; // int for the number of dice being rolled
+	public int modDie; // int for the value of the modifier of the dice roll
+	public Dimension d; // the dimension for setting the size of the roll value text box
+	private JOptionPane justInCase; // This JOptionPane is for if the value of the dice roll goes over 1000
+	private BufferedImage image; // variable for the background image
 	
 	public DiePanel(){
 		super();
 		
 		try {
-			image = ImageIO.read(new File("BackgroundImage.jpg"));
+			image = ImageIO.read(new File("BackgroundImageG.jpg")); //sets the background image
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace(); // just in case the background image did not load properly
 		}
-		//background = Color.BLACK;
-		//getContentPane().
-		rollValue = 0;
-		layout = new GridBagLayout();
-		 // variable for the gridbag layout
+		
+		rollValue = 0; // sets rollValue to zero just in case
+		layout = new GridBagLayout(); // variable for the gridbag layout
 		 JButton genButton; // creates a new button for creating all the other buttons
 		 GridBagConstraints c = new GridBagConstraints(); // creates a new GridBagRestraint
 		 c.fill = GridBagConstraints.BOTH; // sets c to resize components BOTH vertically and horizontally
-		 //c.gridwidth = GridBagConstraints.RELATIVE;
 		 setLayout(layout); // sets the layout of the screen to a gridbag layout
-		 justInCase = new JOptionPane();
+		 justInCase = new JOptionPane(); //creates a new JOptionPane for displaying values over 1000
 		 
 		    genButton = new JButton("Roll Dice"); // creates the button to roll the dice
 			genButton.setFont(new Font("GothicE", Font.BOLD, 48)); // sets font, makes font italicized and font size
-			genButton.setActionCommand("Roll Dice"); // adds ActionListener to button to roll dice
-			c.ipadx = 5;
-			c.gridx = 3;
-			c.gridy = 1;
+			genButton.setActionCommand("Roll Dice"); // adds ActionListener to button to roll dice 
+			c.gridx = 3; // sets the column for the Roll Dice button to be in
+			c.gridy = 1; // sets the row for the Roll Dice button to be in
 			layout.setConstraints(genButton, c); // more button constraints
-			genButton.setVisible(true);
+			genButton.setVisible(true); // sets the Roll Dice button to be true
 		
 			add(genButton); // adds button to frame
 			
 			myTextField = new JTextField("Please enter the number of dice"); // creates new text field and sets text in text field
-			myTextField.setFont(new Font("GothicE", Font.PLAIN, 16));
+			myTextField.setFont(new Font("GothicE", Font.PLAIN, 16)); // sets the font and seixe of the Text Field
 			myTextField.setEditable(true); // makes the text field not editable 
-			d = myTextField.getPreferredSize();
-			myTextField.setPreferredSize(d);
-			add(myTextField);
-			myTextField.addActionListener(this);
-			c.gridx = 1;
-			c.gridy = 1;
-			//myTextField.
+			d = myTextField.getPreferredSize(); // sets the dimension of the text field to be the first preferred size
+			myTextField.setPreferredSize(d); // sets the text field to be the first preferred size
+			add(myTextField); // the the text field to the panel
+			myTextField.addActionListener(this); // gives the text field an action listener
+			c.gridx = 1; // sets the text field to be in the first column
+			c.gridy = 1; // sets the text field to be in the first row
 			layout.setConstraints(myTextField, c); // text field constraints
 			
-			modTextField = new JTextField("Please enter the value of modifier");
-			modTextField.setFont(new Font("GothicE", Font.PLAIN, 16));
-			modTextField.setEditable(true);
-			d = modTextField.getPreferredSize();
+			modTextField = new JTextField("Please enter the value of modifier"); // creates new text field for the modifier of the dice roll
+			modTextField.setFont(new Font("GothicE", Font.PLAIN, 16)); // sets the font and size of the text for the text field
+			modTextField.setEditable(true); // sets the text field to be editable
+			d = modTextField.getPreferredSize(); // sets the dimension of the text field to be the first preferred size
 			modTextField.setPreferredSize(d);
 			add(modTextField);
 			modTextField.addActionListener(this);
@@ -119,7 +100,6 @@ public class DiePanel extends JPanel implements ActionListener {
 			c.gridy = 1;
 			layout.setConstraints(modTextField, c); // text field constraints
 			
-			//c.anchor = GridBagConstraints.FIRST_LINE_START;
 			JRadioButton D20 = new JRadioButton("D20");
 	        D20.setMnemonic(KeyEvent.VK_B);
 	        D20.setActionCommand("D20");
@@ -182,12 +162,9 @@ public class DiePanel extends JPanel implements ActionListener {
 	        dieValue = new JTextArea("0");
 			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100));
 			dieValue.setEditable(false);
-			d = dieValue.getPreferredSize();
-			dieValue.setPreferredSize(new Dimension((d.width * 3), d.height));
+			d = dieValue.getPreferredSize(); // sets the dimension of the text field to be the first preferred size
+			dieValue.setPreferredSize(new Dimension((d.width * 3), d.height)); // sets the dimension of the text field to be the first preferred size times three so for three digits
 			add(dieValue);
-			//dieValue.setSize( 300, 50);
-			//dieValue.setAlignmentY(1);
-			//dieValue.setAlignmentX(1);
 			c.ipady = 0;
 			c.ipadx = 0;
 			c.gridx = 4;
@@ -205,7 +182,6 @@ public class DiePanel extends JPanel implements ActionListener {
 	        dice.add(D12);
 	        dice.add(D100);
 	        
-	        //add(background);
 	        add(D20);
 	        add(D4);
 	        add(D6);
@@ -214,8 +190,6 @@ public class DiePanel extends JPanel implements ActionListener {
 	        add(D12);
 	        add(D100);
 	        
-	        //setComponentZOrder(background, 1);
-	        //setContentPane(new JLabel(new ImageIcon("C:\\Users\\SJHSStudent\\Documents\\DHerr_Java\\FinalProjectDice\\rust-orange-leather-close-up-texture.jpg")));
 	        D4.addActionListener(this);
 	        D6.addActionListener(this);
 	        D8.addActionListener(this);
@@ -229,19 +203,6 @@ public class DiePanel extends JPanel implements ActionListener {
 			this.setVisible(true); // makes the frame visible
 			
 	}
-	
-		
-		
-		/*
-		 * *GOALS*
-		 * To be able to roll all of the different kinds of dice (D20, D4, D6, D8, D10, D12)- check
-		 * Have a text area for modifiers- check
-		 * Have a text area for the number of dice rolled- check
-		 * Selection for common dice rolls??? (Initiative, attack, saving throws)- prob not gonna happen, the number of dice works just the same honestly
-		 * dice roll sound - check
-		 * nat 1 sound - check
-		 * nat 20 sound - check
-		 */
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -319,7 +280,6 @@ public class DiePanel extends JPanel implements ActionListener {
 					playDiceSound();
 					rollValue += d100.getValue() + modDie;
 				}
-			displayRandom();
 			String valueString = Integer.toString(rollValue);
 			dieValue.setText(valueString);
 			}
@@ -385,47 +345,6 @@ public class DiePanel extends JPanel implements ActionListener {
 		diceClip.start(); // starts to play the clip
 		}catch( Exception e1){
 			e1.printStackTrace();
-		}
-	}
-	
-	public void displayRandom(){
-		Random rnd = new Random(); // creates random object
-		int ranNum = 0;
-		int ctr = 7;
-		for( int i = 0; i < ctr; i++){
-			String numString = Integer.toString(ranNum);
-			switch(buttonSelected){
-			
-			case 1:
-				ranNum = rnd.nextInt(6);
-				break;
-			case 2:
-				 ranNum = rnd.nextInt(4);
-				 break;
-			case 3:
-				 ranNum = rnd.nextInt(8);
-				 break;
-			case 4:
-				ranNum = rnd.nextInt(10);
-				break;
-			case 5:
-				ranNum = rnd.nextInt(12);
-				break;
-			case 6:
-				ranNum = rnd.nextInt(20);
-				break;
-			case 7:
-				ranNum = rnd.nextInt(100);
-				break;
-			}
-			try {
-				Thread.sleep(100);
-				dieValue.setText(numString);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			repaint();
-			System.out.println(numString);
 		}
 	}
 	
