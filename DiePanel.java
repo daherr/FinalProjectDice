@@ -50,7 +50,9 @@ public class DiePanel extends JPanel implements ActionListener {
 	public Dimension d; // the dimension for setting the size of the roll value text box
 	private JOptionPane justInCase; // This JOptionPane is for if the value of the dice roll goes over 1000
 	private BufferedImage image; // variable for the background image
-	
+	private Clip clapClip;
+	private Clip sadClip;
+	private Clip diceClip;
 	public DiePanel(){
 		super();
 		
@@ -59,6 +61,32 @@ public class DiePanel extends JPanel implements ActionListener {
 		} catch (IOException e) {
 			e.printStackTrace(); // just in case the background image did not load properly
 		}
+		
+		try{
+		File clap = new File("Applause Light 2-SoundBible.com-356111200.wav"); // creates the file to reference for sound one
+		AudioInputStream clapStream = AudioSystem.getAudioInputStream(clap);
+		AudioFormat clapFormat = clapStream.getFormat(); // creates a new audio format
+		DataLine.Info clapInfo = new DataLine.Info( Clip.class, clapFormat); // creates a variable for additional information about the file
+		clapClip = (Clip) AudioSystem.getLine(clapInfo);
+		clapClip.open(clapStream);
+		
+		File sad = new File("Sad_Trombone-Joe_Lamb-665429450.wav"); // creates the file to reference for sound one
+		AudioInputStream sadStream = AudioSystem.getAudioInputStream(sad); // creates a new audio input stream
+		AudioFormat sadFormat = sadStream.getFormat(); // creates a new audio format
+		DataLine.Info sadInfo = new DataLine.Info( Clip.class, sadFormat); // creates a variable for additional information about the file
+		Clip sadClip = (Clip) AudioSystem.getLine(sadInfo); // creates the clip that will be played 
+		sadClip.open(sadStream); // opens the clip so that it can be played
+		
+		File dice = new File("Shake And Roll Dice-SoundBible.com-591494296.wav"); // creates the file to reference for sound one
+		AudioInputStream diceStream = AudioSystem.getAudioInputStream(dice); // creates a new audio input stream
+		AudioFormat diceFormat = diceStream.getFormat(); // creates a new audio format
+		DataLine.Info diceInfo = new DataLine.Info( Clip.class, diceFormat); // creates a variable for additional information about the file
+		Clip diceClip = (Clip) AudioSystem.getLine(diceInfo); // creates the clip that will be played 
+		diceClip.open(diceStream); // opens the clip so that it can be played
+		}catch(Exception e1){
+			e1.printStackTrace();
+		}
+		
 		
 		rollValue = 0; // sets rollValue to zero just in case
 		layout = new GridBagLayout(); // variable for the gridbag layout
@@ -223,23 +251,23 @@ public class DiePanel extends JPanel implements ActionListener {
 			modifyDice();
 			for(int ctr = 0; ctr < numDie; ctr++){
 			if(buttonSelected == 1){
-				playDiceSound();
+				diceClip.start(); // starts to play the clip
 				d6.roll();
 				rollValue += d6.getValue() + modDie;
 			}else if(buttonSelected == 2){
-				playDiceSound();
+				diceClip.start(); // starts to play the clip
 				d4.roll();
 				rollValue += d4.getValue() + modDie;
 			}else if(buttonSelected == 3){
-				playDiceSound();
+				diceClip.start(); // starts to play the clip
 				d8.roll();
 				rollValue += d8.getValue() + modDie;
 			}else if(buttonSelected == 4){
-				playDiceSound();
+				diceClip.start(); // starts to play the clip
 				d10.roll();
 				rollValue += d10.getValue() + modDie;
 			}else if(buttonSelected == 5){
-				playDiceSound();
+				diceClip.start(); // starts to play the clip
 				d12.roll();
 				rollValue += d12.getValue() + modDie;
 			}else if(buttonSelected == 6){
@@ -247,37 +275,25 @@ public class DiePanel extends JPanel implements ActionListener {
 				rollValue += d20.getValue();
 				if(d20.getValue() == 20){
 					try{
-					File clap = new File("Applause Light 2-SoundBible.com-356111200.wav"); // creates the file to reference for sound one
-					AudioInputStream clapStream = AudioSystem.getAudioInputStream(clap);
-					AudioFormat clapFormat = clapStream.getFormat(); // creates a new audio format
-					DataLine.Info clapInfo = new DataLine.Info( Clip.class, clapFormat); // creates a variable for additional information about the file
-					Clip clapClip = (Clip) AudioSystem.getLine(clapInfo);
-					clapClip.open(clapStream);
 					clapClip.start(); // starts to play the clip
 					} catch(Exception e1){
 						e1.printStackTrace();
 					}
 				}else if(d20.getValue() == 1){
 					try{
-					File sad = new File("Sad_Trombone-Joe_Lamb-665429450.wav"); // creates the file to reference for sound one
-					AudioInputStream sadStream = AudioSystem.getAudioInputStream(sad); // creates a new audio input stream
-					AudioFormat sadFormat = sadStream.getFormat(); // creates a new audio format
-					DataLine.Info sadInfo = new DataLine.Info( Clip.class, sadFormat); // creates a variable for additional information about the file
-					Clip sadClip = (Clip) AudioSystem.getLine(sadInfo); // creates the clip that will be played 
-					sadClip.open(sadStream); // opens the clip so that it can be played
 					sadClip.start(); // starts to play the clip
 					} catch(Exception e1){
 						e1.printStackTrace();
 					}
 					}else if( d20.getValue() != 20 || d20.getValue() != 1){
 						
-						playDiceSound();
+						diceClip.start(); // starts to play the clip
 					}
 				
 				rollValue += modDie;
 			}else if(buttonSelected == 7){
 					d100.roll();
-					playDiceSound();
+					diceClip.start(); // starts to play the clip
 					rollValue += d100.getValue() + modDie;
 				}
 			String valueString = Integer.toString(rollValue);
@@ -333,19 +349,6 @@ public class DiePanel extends JPanel implements ActionListener {
 			modDie = 0;
 		}
 		return modDie;
-	}
-	public void playDiceSound(){
-		try{
-		File dice = new File("Shake And Roll Dice-SoundBible.com-591494296.wav"); // creates the file to reference for sound one
-		AudioInputStream diceStream = AudioSystem.getAudioInputStream(dice); // creates a new audio input stream
-		AudioFormat diceFormat = diceStream.getFormat(); // creates a new audio format
-		DataLine.Info diceInfo = new DataLine.Info( Clip.class, diceFormat); // creates a variable for additional information about the file
-		Clip diceClip = (Clip) AudioSystem.getLine(diceInfo); // creates the clip that will be played 
-		diceClip.open(diceStream); // opens the clip so that it can be played
-		diceClip.start(); // starts to play the clip
-		}catch( Exception e1){
-			e1.printStackTrace();
-		}
 	}
 	
 	 protected void paintComponent(Graphics g) {
