@@ -1,7 +1,7 @@
 import java.util.Random;
 
 /**
- * @author SJHSStudent
+ * @author David Herr
  *
  */
 
@@ -22,8 +22,8 @@ public class D100 {
 		 */
 
 		public D100(int numSides) {
-			sides = numSides;
-			roll();
+			sides = numSides; // sets the number of sides
+			roll(); // calls the roll method to get the value of the roll
 		}
 
 		/**
@@ -44,7 +44,7 @@ public class D100 {
 		 */
 
 		public int getSides() {
-			return sides;
+			return sides; // returns the number of sides 
 		}
 
 		/**
@@ -54,7 +54,7 @@ public class D100 {
 		 */
 
 		public int getValue() {
-			return value;
+			return value; // returns the value of the dice roll
 		}
 
 	}

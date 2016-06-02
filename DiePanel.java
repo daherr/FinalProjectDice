@@ -23,7 +23,7 @@ import java.util.Random;
  */
 
 /**
- * @author SJHSStudent
+ * @author David Herr
  *
  */
 public class DiePanel extends JPanel implements ActionListener {
@@ -44,17 +44,17 @@ public class DiePanel extends JPanel implements ActionListener {
 	private JTextField modTextField; // text box for modifiers
 	public static int buttonSelected = 1; // variable for the type of die that is selected
 	private JTextArea dieValue; // variable for the value of the dice rolls
-	public int rollValue; // int for the value of the dice rolls
+	public long rollValue; // int for the value of the dice rolls
 	public int numDie; // int for the number of dice being rolled
 	public int modDie; // int for the value of the modifier of the dice roll
 	public Dimension d; // the dimension for setting the size of the roll value text box
 	private JOptionPane justInCase; // This JOptionPane is for if the value of the dice roll goes over 1000
 	private BufferedImage image; // variable for the background image
-	private Clip clapClip;
-	private Clip sadClip;
-	private Clip diceClip;
+	private Clip clapClip; // clip for applause (natural 20 on D20)
+	private Clip sadClip; // clip for the sad trombone (natural 1 for D20)
+	private Clip diceClip; // clip for rolling the dice
 	public DiePanel(){
-		super();
+		super(); // calls the super method to build the basic panek
 		
 		try {
 			image = ImageIO.read(new File("BackgroundImageG.jpg")); //sets the background image
@@ -64,27 +64,27 @@ public class DiePanel extends JPanel implements ActionListener {
 		
 		try{
 		File clap = new File("Applause Light 2-SoundBible.com-356111200.wav"); // creates the file to reference for sound one
-		AudioInputStream clapStream = AudioSystem.getAudioInputStream(clap);
+		AudioInputStream clapStream = AudioSystem.getAudioInputStream(clap); // creates a new AudioInputStream to load the sound
 		AudioFormat clapFormat = clapStream.getFormat(); // creates a new audio format
 		DataLine.Info clapInfo = new DataLine.Info( Clip.class, clapFormat); // creates a variable for additional information about the file
-		clapClip = (Clip) AudioSystem.getLine(clapInfo);
-		clapClip.open(clapStream);
+		clapClip = (Clip) AudioSystem.getLine(clapInfo); //creates a new clip to be played
+		clapClip.open(clapStream); // opens the clip to be able to be played
 		
 		File sad = new File("Sad_Trombone-Joe_Lamb-665429450.wav"); // creates the file to reference for sound one
 		AudioInputStream sadStream = AudioSystem.getAudioInputStream(sad); // creates a new audio input stream
 		AudioFormat sadFormat = sadStream.getFormat(); // creates a new audio format
 		DataLine.Info sadInfo = new DataLine.Info( Clip.class, sadFormat); // creates a variable for additional information about the file
-		Clip sadClip = (Clip) AudioSystem.getLine(sadInfo); // creates the clip that will be played 
+		sadClip = (Clip) AudioSystem.getLine(sadInfo); // creates the clip that will be played 
 		sadClip.open(sadStream); // opens the clip so that it can be played
 		
 		File dice = new File("Shake And Roll Dice-SoundBible.com-591494296.wav"); // creates the file to reference for sound one
 		AudioInputStream diceStream = AudioSystem.getAudioInputStream(dice); // creates a new audio input stream
 		AudioFormat diceFormat = diceStream.getFormat(); // creates a new audio format
 		DataLine.Info diceInfo = new DataLine.Info( Clip.class, diceFormat); // creates a variable for additional information about the file
-		Clip diceClip = (Clip) AudioSystem.getLine(diceInfo); // creates the clip that will be played 
+		diceClip = (Clip) AudioSystem.getLine(diceInfo); // creates the clip that will be played 
 		diceClip.open(diceStream); // opens the clip so that it can be played
 		}catch(Exception e1){
-			e1.printStackTrace();
+			e1.printStackTrace(); // prints the stack trace just in case an error pops up
 		}
 		
 		
@@ -121,41 +121,41 @@ public class DiePanel extends JPanel implements ActionListener {
 			modTextField.setFont(new Font("GothicE", Font.PLAIN, 16)); // sets the font and size of the text for the text field
 			modTextField.setEditable(true); // sets the text field to be editable
 			d = modTextField.getPreferredSize(); // sets the dimension of the text field to be the first preferred size
-			modTextField.setPreferredSize(d);
-			add(modTextField);
-			modTextField.addActionListener(this);
-			c.gridx = 2;
-			c.gridy = 1;
+			modTextField.setPreferredSize(d); // sets the size of the modTextField to the preferred size
+			add(modTextField); // adds the modTextField to the Panel
+			modTextField.addActionListener(this); // adds an actionListener to the modTextField
+			c.gridx = 2; //sets the text field to be in the second row
+			c.gridy = 1; // sets the text field to be in the first column
 			layout.setConstraints(modTextField, c); // text field constraints
 			
-			JRadioButton D20 = new JRadioButton("D20");
-	        D20.setMnemonic(KeyEvent.VK_B);
-	        D20.setActionCommand("D20");
-	        D20.setOpaque(false);
-	        c.ipadx = 0;
-	        c.ipady = 40;
-	        c.gridx = 2;
-	        c.gridy = 3;
+			JRadioButton D20 = new JRadioButton("D20"); // creates a new JRadioButton called D20
+	        D20.setMnemonic(KeyEvent.VK_B); // sets the mnemonic for the button
+	        D20.setActionCommand("D20"); // sets the action command of the button to D20
+	        D20.setOpaque(false); // sets the background of the button to be opaque
+	        c.ipadx = 0; // sets the internal padding for the x axis of the buttons to zero
+	        c.ipady = 40; // sets the interal padding of the y axis of the buttons to forty
+	        c.gridx = 2; // sets the button to be in the second column
+	        c.gridy = 3; // sets the button to be in the third row
 	       
 	        layout.setConstraints(D20, c); // more button constraints
 			
-	         JRadioButton D10  = new JRadioButton("D10");
-	        D10.setMnemonic(KeyEvent.VK_B);
-	        D10.setActionCommand("D10");
-	        D10.setOpaque(false);
-	        c.gridy = 2;
-	        c.gridx = 4;
+	         JRadioButton D10  = new JRadioButton("D10"); // creates a new JRadioButton called D10
+	        D10.setMnemonic(KeyEvent.VK_B); // sets the mnemonic for the button
+	        D10.setActionCommand("D10"); // sets the action command for the button to D10
+	        D10.setOpaque(false); // sets the background of the button to be opaque
+	        c.gridy = 2; // sets the button to be in the second row
+	        c.gridx = 4;// sets the button to be in the fourth column
 	        layout.setConstraints(D10, c); // more button constraints
 	        
-	        JRadioButton D6 = new JRadioButton("D6");
-	        D6.setMnemonic(KeyEvent.VK_B);
-	        D6.setActionCommand("D6");
-	        D6.setOpaque(false);
-	        c.gridy = 2;
-	        c.gridx = 2;
+	        JRadioButton D6 = new JRadioButton("D6"); // creates a new JRadioButton called D6
+	        D6.setMnemonic(KeyEvent.VK_B); // sets mnemonic of the button 
+	        D6.setActionCommand("D6"); // sets the action command of the button to D6
+	        D6.setOpaque(false); // sets the background of the button to be opaque
+	        c.gridy = 2; // sets the button to be in row two
+	        c.gridx = 2; // sets the button to be in column two
 	        layout.setConstraints(D6, c); // more button constraints
 	        
-	        JRadioButton D4 = new JRadioButton("D4");
+	        JRadioButton D4 = new JRadioButton("D4"); // creates a new JRadioButton called D4
 	        D4.setMnemonic(KeyEvent.VK_B);
 	        D4.setActionCommand("D4");
 	        D4.setOpaque(false);
@@ -296,7 +296,7 @@ public class DiePanel extends JPanel implements ActionListener {
 					diceClip.start(); // starts to play the clip
 					rollValue += d100.getValue() + modDie;
 				}
-			String valueString = Integer.toString(rollValue);
+			String valueString = Long.toString(rollValue);
 			dieValue.setText(valueString);
 			}
 			if(rollValue > 1000){
