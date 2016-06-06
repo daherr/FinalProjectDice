@@ -1,22 +1,10 @@
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
+import javax.sound.sampled.*;
 import javax.swing.*;
-import java.util.Random;
 
 /**
  * 
@@ -39,6 +27,7 @@ public class DiePanel extends JPanel implements ActionListener {
 	 * @param args
 	 * @return 
 	 */
+	private JButton genButton; // creates a new button for creating all the other buttons
 	private GridBagLayout layout; // variable for the GridBagLayout.
 	private JTextField myTextField; // variable for text box
 	private JTextField modTextField; // text box for modifiers
@@ -90,7 +79,6 @@ public class DiePanel extends JPanel implements ActionListener {
 		
 		rollValue = 0; // sets rollValue to zero just in case
 		layout = new GridBagLayout(); // variable for the gridbag layout
-		 JButton genButton; // creates a new button for creating all the other buttons
 		 GridBagConstraints c = new GridBagConstraints(); // creates a new GridBagRestraint
 		 c.fill = GridBagConstraints.BOTH; // sets c to resize components BOTH vertically and horizontally
 		 setLayout(layout); // sets the layout of the screen to a gridbag layout
@@ -156,77 +144,76 @@ public class DiePanel extends JPanel implements ActionListener {
 	        layout.setConstraints(D6, c); // more button constraints
 	        
 	        JRadioButton D4 = new JRadioButton("D4"); // creates a new JRadioButton called D4
-	        D4.setMnemonic(KeyEvent.VK_B);
-	        D4.setActionCommand("D4");
-	        D4.setOpaque(false);
-	        c.gridy = 2;
-	        c.gridx = 1;
+	        D4.setMnemonic(KeyEvent.VK_B); // sets the mnemonic for D4
+	        D4.setActionCommand("D4"); // sets the action command of D4 to D4
+	        D4.setOpaque(false); // sets the button to be opaque
+	        c.gridy = 2; // sets the button to be in the second row
+	        c.gridx = 1; // sets the button to be in the first column
 	        layout.setConstraints(D4, c); // more button constraints
 	        
-	        JRadioButton D8 = new JRadioButton("D8");
-	        D8.setMnemonic(KeyEvent.VK_B);
-	        D8.setActionCommand("D8");
-	        D8.setOpaque(false);
-	        c.gridy = 2;
-	        c.gridx = 3;
+	        JRadioButton D8 = new JRadioButton("D8"); //  creates a new JRadioButton called D8
+	        D8.setMnemonic(KeyEvent.VK_B); // sets the mnemonic
+	        D8.setActionCommand("D8"); // sets the action command of D8 to D8
+	        D8.setOpaque(false); // sets the button to be opaque
+	        c.gridy = 2; // sets the button to be in the second row
+	        c.gridx = 3; // sets the button to be in the third column
 	        layout.setConstraints(D8, c); // more button constraints
 	        
-	        JRadioButton D12 = new JRadioButton("D12");
-	        D12.setMnemonic(KeyEvent.VK_B);
-	        D12.setActionCommand("D12");
-	        D12.setOpaque(false);
-	        c.gridy = 3;
-	        c.gridx = 1;
+	        JRadioButton D12 = new JRadioButton("D12"); // creates a new JRadioButton called D12
+	        D12.setMnemonic(KeyEvent.VK_B); // sets the mnemonic
+	        D12.setActionCommand("D12"); // sets the action command of D12 to D12
+	        D12.setOpaque(false); // sets the button to be opaque
+	        c.gridy = 3; // sets the button to be in the third row
+	        c.gridx = 1; // sets the button to be in the first column
 	        layout.setConstraints(D12, c); // more button constraints
 	        
-	        JRadioButton D100 = new JRadioButton("Percentage");
-	        D100.setMnemonic(KeyEvent.VK_B);
-	        D100.setActionCommand("D100");
-	        D100.setOpaque(false);
-	        c.gridy = 3;
-	        c.gridx = 3;
+	        JRadioButton D100 = new JRadioButton("Percentage"); // creates a new JRadioButton called Percentage
+	        D100.setMnemonic(KeyEvent.VK_B); // sets the mnemonic
+	        D100.setActionCommand("D100"); // sets the action command of D100 to D100
+	        D100.setOpaque(false); // sets the button to be opaque 
+	        c.gridy = 3; // sets the button to be in the third row
+	        c.gridx = 3; // sets the button to be in the third column
 	        layout.setConstraints(D100, c); // more button constraints
 	        
-	        dieValue = new JTextArea("0");
-			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100));
-			dieValue.setEditable(false);
+	        dieValue = new JTextArea("0"); // creates the JTextArea with the text 0 in it
+			dieValue.setFont(new Font("GothicE", Font.PLAIN, 100)); // sets the font of the text area to be GothicE, not bold or italic and size 100
+			dieValue.setEditable(false); // makes the JTextArea non-editable
 			d = dieValue.getPreferredSize(); // sets the dimension of the text field to be the first preferred size
 			dieValue.setPreferredSize(new Dimension((d.width * 3), d.height)); // sets the dimension of the text field to be the first preferred size times three so for three digits
-			add(dieValue);
-			c.ipady = 0;
-			c.ipadx = 0;
-			c.gridx = 4;
-			c.gridy = 1;
-			c.anchor = GridBagConstraints.LAST_LINE_END;
+			c.ipady = 0; // makes sure there's no internal padding for the x
+			c.ipadx = 0; // makes sure there's no internal padding for the y
+			c.gridx = 4; // sets the JTextArea to be in the fourth row
+			c.gridy = 1; // sets the JTextArea to be in the first column
 			
-			layout.setConstraints(dieValue, c);
+			layout.setConstraints(dieValue, c); // more constraints
 	        
-	        ButtonGroup dice = new ButtonGroup();
-	        dice.add(D20);
-	        dice.add(D4);
-	        dice.add(D6);
-	        dice.add(D8);
-	        dice.add(D10);
-	        dice.add(D12);
-	        dice.add(D100);
+	        ButtonGroup dice = new ButtonGroup(); // creates the button group for the dice
+	        dice.add(D20); // adds D20 to dice
+	        dice.add(D4); // adds D4 to dice
+	        dice.add(D6); // adds D6 to dice
+	        dice.add(D8); // adds D8 to dice
+	        dice.add(D10); // adds D10 to dice
+	        dice.add(D12); // adds D12 to dice
+	        dice.add(D100); // adds D100 to dice
 	        
-	        add(D20);
-	        add(D4);
-	        add(D6);
-	        add(D8);
-	        add(D10);
-	        add(D12);
-	        add(D100);
+	        add(D20); // adds D20 to the JPanel
+	        add(D4); // adds D4 to the JPanel
+	        add(D6); // adds D6 to the JPanel
+	        add(D8); // adds D8 to the JPanel
+	        add(D10); // adds D10 to the JPanel
+	        add(D12); // adds D12 to the JPanel
+	        add(D100); // adds D100 to the JPanel
+	        add(dieValue); // adds dieValue to JPanel
 	        
-	        D4.addActionListener(this);
-	        D6.addActionListener(this);
-	        D8.addActionListener(this);
-	        D10.addActionListener(this);
-	        D12.addActionListener(this);
-	        D20.addActionListener(this);
-	        D100.addActionListener(this);
-	        genButton.addActionListener(this);
-	        D6.setSelected(true);
+	        D4.addActionListener(this); // adds ActionListener to D4
+	        D6.addActionListener(this); // adds ActionListener to D6
+	        D8.addActionListener(this); // adds ActionListener to D8
+	        D10.addActionListener(this); // adds ActionListener to D10
+	        D12.addActionListener(this); // adds ActionListener to D12
+	        D20.addActionListener(this); // adds ActionListener to D20
+	        D100.addActionListener(this); // adds ActionListener to D100
+	        genButton.addActionListener(this); // adds ActionListener to roll dice button
+	        D6.setSelected(true); // sets D6 to the selected at runtime 
 			this.setSize(1250, 300); // sets the frame to the preferred size 
 			this.setVisible(true); // makes the frame visible
 			
@@ -234,45 +221,45 @@ public class DiePanel extends JPanel implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		D6 d6 = new D6(6);
-		D4 d4 = new D4(4);
-		D8 d8 = new D8(8); 
-		D10 d10 = new D10(10);
-		D12 d12 = new D12(12);
-		D20 d20 = new D20(20);
-		D100 d100 = new D100(100);
+		D6 d6 = new D6(6); // creates a new variable for six-sided die
+		D4 d4 = new D4(4); // creates a new variable for four-sided die
+		D8 d8 = new D8(8); // creates a new variable for eight-sided die
+		D10 d10 = new D10(10); // creates a new variable for ten-sided die
+		D12 d12 = new D12(12); // creates a new variable for twelve-sided die
+		D20 d20 = new D20(20); // creates a new variable for twenty-sided die
+		D100 d100 = new D100(100); // creates a new variable for one hundred-sided die
 		switch(e.getActionCommand()){
 		
 		case "Roll Dice":
-			rollValue = 0;
-			numDie = 0;
-			modDie= 0;
-			numberDice();
-			modifyDice();
+			rollValue = 0; // sets rollValue
+			numDie = 0; // sets numDie to zero
+			modDie= 0; // sets the value of the modifier to zero
+			numberDice(); // gets the number of dice rolled
+			modifyDice(); // gets the value of the modifier
 			for(int ctr = 0; ctr < numDie; ctr++){
 			if(buttonSelected == 1){
 				diceClip.start(); // starts to play the clip
-				d6.roll();
-				rollValue += d6.getValue() + modDie;
+				d6.roll(); // gets the value of the roll
+				rollValue += d6.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier 
 			}else if(buttonSelected == 2){
 				diceClip.start(); // starts to play the clip
-				d4.roll();
-				rollValue += d4.getValue() + modDie;
+				d4.roll(); // gets the value of the roll
+				rollValue += d4.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 			}else if(buttonSelected == 3){
 				diceClip.start(); // starts to play the clip
-				d8.roll();
-				rollValue += d8.getValue() + modDie;
+				d8.roll(); // gets the value of the roll
+				rollValue += d8.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 			}else if(buttonSelected == 4){
 				diceClip.start(); // starts to play the clip
-				d10.roll();
-				rollValue += d10.getValue() + modDie;
+				d10.roll(); // gets the value of the roll
+				rollValue += d10.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 			}else if(buttonSelected == 5){
 				diceClip.start(); // starts to play the clip
-				d12.roll();
-				rollValue += d12.getValue() + modDie;
+				d12.roll(); // gets the value of the roll
+				rollValue += d12.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 			}else if(buttonSelected == 6){
-				d20.roll();
-				rollValue += d20.getValue();
+				d20.roll(); // gets the value of the roll
+				rollValue += d20.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 				if(d20.getValue() == 20){
 					try{
 					clapClip.start(); // starts to play the clip
@@ -290,11 +277,11 @@ public class DiePanel extends JPanel implements ActionListener {
 						diceClip.start(); // starts to play the clip
 					}
 				
-				rollValue += modDie;
+				rollValue += modDie; // sets rollValue to the value of the roll plus the modifier
 			}else if(buttonSelected == 7){
-					d100.roll();
+					d100.roll(); // gets the value of the roll
 					diceClip.start(); // starts to play the clip
-					rollValue += d100.getValue() + modDie;
+					rollValue += d100.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 				}
 			String valueString = Long.toString(rollValue);
 			dieValue.setText(valueString);
@@ -336,7 +323,7 @@ public class DiePanel extends JPanel implements ActionListener {
 		if(myTextField.getText().matches("^[0-9]+$")){
 		numDie = Integer.parseInt(myTextField.getText());
 		}else{
-			myTextField.setText("Invalid number, value set to one");
+			myTextField.setText("Value set to one");
 			numDie = 1;
 		}
 		return numDie;
