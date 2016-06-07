@@ -283,34 +283,35 @@ public class DiePanel extends JPanel implements ActionListener {
 					diceClip.start(); // starts to play the clip
 					rollValue += d100.getValue() + modDie; // sets rollValue to the value of the roll plus the modifier
 				}
-			String valueString = Long.toString(rollValue);
-			dieValue.setText(valueString);
+			String valueString = Long.toString(rollValue); // creates a string valueString to store the value of the die roll
+			dieValue.setText(valueString); // sets the value of the of the text field to the value of the roll
 			}
 			if(rollValue > 1000){
+				//In case the value of the roll is over 1000, a separate screen will appear with the value
 				JOptionPane.showMessageDialog(justInCase, "Number larger than 1000: " + rollValue);
 			}
-			System.out.println(rollValue);
+			System.out.println(rollValue); // prints the value of the roll to the console
 			break;
 		case "D4":
-			buttonSelected = 2;
+			buttonSelected = 2; // if D4 is selected buttonSelected = 2
 			break;
 		case "D6":
-			buttonSelected = 1;
+			buttonSelected = 1; // if D6 is selected buttonSelected = 1
 			break;
 		case "D8":
-			buttonSelected = 3;
+			buttonSelected = 3; // if D8 is selected buttonSelected = 3
 			break;
 		case "D10":
-			buttonSelected = 4;
+			buttonSelected = 4; // if D10 is selected buttonSelected  = 4
 			break;
 		case "D12":
-			buttonSelected = 5;
+			buttonSelected = 5; // if D12 is selected buttonSelected = 5
 			break;	
 		case "D20":
-			buttonSelected = 6;
+			buttonSelected = 6; // if D20 is selected buttonSelected  = 6
 			break;
 		case "D100":
-			buttonSelected = 7;
+			buttonSelected = 7; // if D100, or Percentage, is selected buttonSelected = 7
 			break;
 		case "default":
 			//the default sets the dice back to D6, as the D6 is the most common die
@@ -318,30 +319,42 @@ public class DiePanel extends JPanel implements ActionListener {
 			break;
 		}
 	}
-		
+		/**
+		 * This method gets the value of the number of dice and returns it to be used 
+		 * @return numDie
+		 */
 	public int numberDice(){
 		if(myTextField.getText().matches("^[0-9]+$")){
-		numDie = Integer.parseInt(myTextField.getText());
+		numDie = Integer.parseInt(myTextField.getText()); // if the value is a number, sets numDie to value
 		}else{
+			//otherwise the numDie = 1
 			myTextField.setText("Value set to one");
 			numDie = 1;
 		}
 		return numDie;
 	}
-	
+	/**
+	 * Gets the value of any modifier and returns it to be used
+	 * @return modDie
+	 */
 	public int modifyDice(){
 		if(modTextField.getText().matches("^[+|-][0-9]+$")){
-			modDie = Integer.parseInt(modTextField.getText());
+			// if the value passes the regex, modDie is set to the ints in that value
+			modDie = Integer.parseInt(modTextField.getText()); 
 		}else{
+			//otherwise modDie = 0
 			modDie = 0;
 		}
 		return modDie;
 	}
+	/**
+	 * This method creates the background image so it can be used
+	 */
 	
 	 protected void paintComponent(Graphics g) {
 	      super.paintComponent(g);
 	      if (image != null) {
-	         g.drawImage(image, 0, 0, null);
+	         g.drawImage(image, 0, 0, null); // draws the background picture
 	      }
 	   }
 
